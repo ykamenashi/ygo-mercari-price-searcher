@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>遊戯王カード 相場リサーチツール</title>
+  <script type="text/javascript">
+    const skelton = 'https://www.mercari.com/jp/search/?sort_order=' +
+    'price_desc&keyword=KEYWORD_PLACE&category_root=&' +
+    'brand_name=&brand_id=&size_group=&price_min=&price_max=&' +
+    'status_trading_sold_out=1';
+
+    function getEBID(eid) {
+        return document.getElementById(eid);
+    }
+    function lang_changed(val) {
+        getEBID('SUFFIX').value = val;
+    }
+    function build_query() {
+        return getEBID('PREFIX').value + '-' + getEBID('SUFFIX').value;
+    }
+    function run_search() {
+        const query = build_query();
+        const URL = skelton.replace(/KEYWORD_PLACE/,query);
+        window.open(URL)
+    }
+  </script>
+</head>
+<body onload="getEBID('lang').focus();">
+  <select id="lang" onchange="lang_changed(this.value);" >
+    <option>JP</option>
+    <option>EN</option>
+    <option>KR</option>
+  </select>
+  <input type="text" size="8" id="PREFIX"
+    onfocus="getEBID('SUFFIX').value = getEBID('lang').value; "/> -
+  <input type="text" size="8" id="SUFFIX" />
+  <button id="search" onclick="run_search();">run</button>
+</body>
+</html>
